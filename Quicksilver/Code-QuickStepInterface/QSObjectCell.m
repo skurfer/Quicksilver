@@ -462,12 +462,14 @@
 			NSUInteger j = 0;
 			NSUInteger hits[[titleString length]];
 			NSUInteger count = [hitMask getIndexes:(NSUInteger *)&hits maxCount:[titleString length] inIndexRange:nil];
-			NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        rankedStringIsName ? mainColor : fadedColor, NSForegroundColorAttributeName,
-                                        rankedStringIsName ? mainColor : fadedColor, NSUnderlineColorAttributeName,
-                                        [NSNumber numberWithInteger:2.0] , NSUnderlineStyleAttributeName,
-                                        [NSNumber numberWithDouble:1.0] , NSBaselineOffsetAttributeName,
-                                        nil];
+            NSShadow *shadow = [[NSShadow alloc] init];
+            [shadow setShadowBlurRadius:3.0];
+            [shadow setShadowColor:fadedColor];
+			NSDictionary *attributes = @{
+                NSForegroundColorAttributeName: rankedStringIsName ? mainColor : fadedColor,
+                NSShadowAttributeName: shadow,
+                NSBaselineOffsetAttributeName: [NSNumber numberWithDouble:1.0],
+            };
             
 			for(i = 0; i<count; i += j) {
 				for (j = 1; i+j<count && hits[i+j-1] +1 == hits[i+j]; j++);
